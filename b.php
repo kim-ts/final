@@ -11,8 +11,8 @@
     <?php
         $id = $_POST['id'];
         $pass = $_POST['pass'];
-        $connect = mysqli_connect("localhost", "root", "kyokyo!@#3");
-        $database = mysqli_select_db($connect,"home");
+        $connect = mysqli_connect("localhost", "root", "1234");
+        $database = mysqli_select_db($connect,"snsdb");
         $sql = "select * from member where id='$id'"; 
         $result = mysqli_fetch_array(mysqli_query($connect,$sql));
 

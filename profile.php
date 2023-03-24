@@ -1,13 +1,13 @@
 <?php
   session_start();
   $id = $_SESSION['loginID'];
-  $connect = mysqli_connect("localhost", "root", "kyokyo!@#3");
-  $database = mysqli_select_db($connect,"home");
+  $connect = mysqli_connect("localhost", "root", "1234");
+  $database = mysqli_select_db($connect,"snsdb");
   $sql = "select * from member where id='$id'"; 
   $result = mysqli_fetch_array(mysqli_query($connect,$sql));
   $profile = $result['profile'];
   if($profile == ""){
-      $profile = "asdf.jpg";
+      $profile = "defaultprofile.jpg";
     }
   $countboard = 0;
   $countfollow = 0;
@@ -214,8 +214,8 @@
         <?php
         session_start();
         if($_SESSION['loginID'] !=""){
-            $connect = mysqli_connect("localhost","root","kyokyo!@#3");
-            mysqli_select_db($connect, "home");
+            $connect = mysqli_connect("localhost","root","1234");
+            mysqli_select_db($connect, "snsdb");
             $sql = "select * from member where id = '$_SESSION[loginID]'";
             $result = mysqli_fetch_array(mysqli_query($connect, $sql));
         }
@@ -229,7 +229,7 @@
         <div class="logo">
           <button type="button" class="btn btn-white" >
             <a href="/testhome.php">
-                <img src="/upload/E53084D5-A27D-4271-A610-5C83B9B0E661.jpeg" alt="Button Image" style="max-width: 100%; max-height: 100%;" >
+                <img src="/upload/logo.jpeg" alt="Button Image" style="max-width: 100%; max-height: 100%;" >
             </a>
           </button>
         </div>
@@ -333,7 +333,7 @@
         </div>
         <div class="righttext">
           <div class="rt">
-            <?php echo $result['id']; ?>
+            <?php echo $result['name']; ?>
           </div>
           <div class="rm">
             <div class="rm-1"><?php echo "게시물 ".$countboard; ?></div>
