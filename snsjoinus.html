@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>회원가입</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <style>
+            body{
+                background-color: lightblue;
+            }
+            .input{
+                border-radius: 10px; /* 원하는 값으로 설정 */
+                padding: 80px;
+                background-color: rgb(90, 159, 244);
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                box-shadow: 20px 20px 10px #888888;  /* 그림자 효과 */
+            }
+            .form-group label {
+                margin-right: 1px; /* 아이디 라벨과 입력창 사이의 간격을 조절합니다. */
+            }
+            .input::before {
+                content: "회원가입";
+                display: block;
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 10px;
+                text-align: center;
+            }
+            a {
+              color: #000000; /* 링크의 색상을 지정합니다. */
+              text-decoration: none; /* 밑줄을 없애기 위해 text-decoration 속성을 none으로 지정합니다. */
+            }
+
+            a:hover {
+              color: #999999; /* 마우스를 가져다 대었을 때 링크 색상을 지정합니다. */
+            }
+
+            a:active {
+              color: #CCCCCC; /* 링크를 클릭했을 때 링크 색상을 지정합니다. */
+            }
+
+        </style>
+        <SCRipt>
+            function validation(){
+                var id = document.getElementById('id');
+                var pass = document.getElementById('pass');
+                var pass_re = document.getElementById('pass_re');
+                var name = document.getElementById('name');
+                var email = document.getElementById('email');
+
+                if(id.value == ""){
+                    alert("아이디를 입력하세요.");
+                    return false;
+                }
+                if(pass.value == ""){
+                    alert("비밀번호를 입력하세요.");
+                    return false;
+                }
+                if(pass_re.value == ""){
+                    alert("비밀번호를 입력하세요.");
+                    return false;
+                }
+                if(name.value == ""){
+                    alert("이름을 입력하세요.");
+                    return false;
+                }
+                if(email.value == ""){
+                    alert("이메일을 입력하세요.");
+                    return false;
+                }
+                if(pass.value != pass_re.value){
+                    alert("비밀번호가 다릅니다.");
+                    return false;
+                }
+                return true;
+            }
+        </SCRipt>
+    </head>
+
+    <body>
+        <div class="input">
+            <form method="post" action="joinus_proc.php" onsubmit="return validation();">
+                <div class="form-group">
+                  <!--<label for="id">*아이디:</label>-->
+                  <input type="text" class="form-control" id="id" name="id" maxlength="10" placeholder="*아이디를 입력하세요">
+                </div>
+                <div class="form-group">
+                  <!--<label for="password">*비밀번호:</label>-->
+                  <input type="password" class="form-control" id="pass" name="pass" placeholder="*비밀번호를 입력하세요">
+                </div>
+                <div class="form-group">
+                  <!--<label for="repassword">*재입력:</label>-->
+                  <input type="password" class="form-control" id="pass_re" name="pass_re" placeholder="*비밀번호를 한번 더 입력하세요">
+                </div>
+                <div class="form-group">
+                  <!--<label for="name">*이름:</label>-->
+                  <input type="text" class="form-control" id="name" name="name" placeholder="*이름을 입력하세요">
+                </div>
+                <div class="form-group">
+                  <!--<label for="nickname">닉네임:</label>-->
+                  <input type="text" class="form-control" id="nickname" name="nickname" placeholder="닉네임을 입력하세요">
+                </div>
+                <div class="form-group">
+                  <!--<label for="mobile">휴대폰:</label>-->
+                  <input type="text" class="form-control" id="mobile" name="mobile" placeholder="휴대폰 번호를 입력하세요">
+                </div>
+                <div class="form-group">
+                  <!--<label for="email">*이메일:</label>-->
+                  <input type="text" class="form-control" id="email" name="email" placeholder="*이메일을 입력하세요">
+                </div>
+                
+                
+                * 표시항목은필수입력항목입니다.<br>
+                <button type="submit" class="btn btn-default">가입</button>
+                <button type="reset" class="btn btn-default">취소</button><br>
+                <a href="a.html" style="text-decoration:none;">돌아가기</a>
+            </form>
+            </div>
+        <!---<form method="post" action="joinus_proc.php" onsubmit="return validation();">
+            <pre>
+                *아이디: <input type="text" name="id" maxlength="10" id="id"> (최대 10자리)
+                *비밀번호: <input type="password" name="pass" id="pass">
+                *재입력: <input type="password" name="pass_re" id="pass_re">
+                *이름: <input type="text" name="name" id="name">
+                닉네임: <input type="text" name="nickname">
+                휴대폰: <input type="text" name="mobile">
+                *이메일: <input type="text" name="email" id="email">
+                주소: <input type="text" name="address">
+                
+                * 표시 항목은 필 수 입 력 항  목    입      니        까?
+                <input type="submit" value="가입"><input type="reset" value="취소">
+            </pre>
+        </form>-->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    </body>
+</html>
