@@ -1,9 +1,27 @@
 <?php
     session_start();
+    $now = date('Y_m_d_H_i_s');
+
+    if($_FILES == ""){
+        echo "<script>alert('사진없음');history.back();</script>";
+        exit;
+    }
+    $name = $_FILES['chooseFile']['name'];  //webhard.php 에서 <input type="file" name="upfile">를 보면 upfile 이라는 이름으로 전달되어오기 때문에 앞의 괄호에는 그 파일을 읽겟다는 의미, 그중 name을 읽겟단뜻
+    $tmp_name = $_FILES['chooseFile']['tmp_name']; //그중 tmp_name 을 읽겠단뜻
+
+    if(preg_match("/.py|.sh|.php|.html/",$name)){  
+        echo "<script>alert('지원하지 않는 형식의 파일입니다.!');history.back();</script>";
+        exit;
+    }
 
     $content = $_POST['content'];
 
+    
 
+    //if($_SERVER['HTTP_REFERER'] != "http://www.kyo.com/board.php"){
+    //    echo "address not board! u r hakkk er!!";
+    //    exit;
+    //}
 
     // xss filter
     //$subject = str_replace("<script>","",$subject);   // <script> 라는 문자가 있다면 , 빈 공간으로 치환하라, $subject 에서
@@ -42,22 +60,40 @@
         exit;
     }
 
-    session_start();
+    
     if($_SESSION['loginID'] == ""){
-        $user = "not login";
+        exit;
     }else{
-        $user = $_SESSION['loginID'];
+        $id = $_SESSION['loginID'];
     }
 
-    $sql = "insert into wenti set
+    $sql = "insert into board set
+            id = '$id',
             content = '$content',
-            user = '$user',
-            reg_date = now()";
-
-    
+            file = '$name',
+            sum_like = 0,
+            sum_comment = 0,
+            reg_date = '$now'";
 
     $return = mysqli_query($connect,$sql);
+
+    $createboardlike = "call create_boardlike_table('$id','$now')";
+    $createboardcomum = "call create_boardcomnum_table('$id','$now')";
+    $createboardcomment = "call create_comment_table('$id','$now')";
+    $cominserttrigger = "create trigger ".$id.$now."_com_ins_t after insert on ".$id."_comnum_".$now." for each row  update board set sum_comment = sum_comment + 1;";
+    $comdeltrigger = "create trigger ".$id.$now."_com_del_t after delete on ".$id."_comnum_".$now." for each row  update board set sum_comment = sum_comment - 1;";
+    $likeinserttrigger = "create trigger ".$id.$now."_com_l_t after insert on ".$id."_like_".$now." for each row  update board set sum_like = sum_like + 1;";
+    $likedeltrigger = "create trigger ".$id.$now."_com_d_t after delete on ".$id."_like_".$now." for each row  update board set sum_like = sum_like - 1;";
+
     if($return){
+        $move_result = move_uploaded_file($tmp_name, "./upload/$name");
+        mysqli_query($connect,$createboardlike);
+        mysqli_query($connect,$createboardcomum);
+        mysqli_query($connect,$createboardcomment);
+        mysqli_query($connect,$cominserttrigger);
+        mysqli_query($connect,$comdeltrigger);
+        mysqli_query($connect,$likeinserttrigger);
+        mysqli_query($connect,$likedeltrigger);
         echo "<script>
                         alert('글 등록 성공');
                         history.back();
@@ -69,6 +105,7 @@
                 </script>";
         echo mysqli_error($connect);
     }
+    
     mysqli_close($connect);
 ?>
 <head>

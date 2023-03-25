@@ -20,6 +20,7 @@
             $sql1 = "call login_procedure('$id','$pass')"; 
             $result1 = mysqli_fetch_array(mysqli_query($connect,$sql1));
             if($result1){
+                
                 session_start();
                 $_SESSION['loginID'] = $id;
                 $nickname = $result1['nickname'];

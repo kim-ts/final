@@ -3,17 +3,18 @@
   $id = $_SESSION['loginID'];
   $connect = mysqli_connect("localhost", "root", "1234");
   $database = mysqli_select_db($connect,"snsdb");
-  $sql = "select * from member where id='$id'"; 
+  $sql = "select * from ".$id."profile order by reg_date desc"; 
   $result = mysqli_fetch_array(mysqli_query($connect,$sql));
-  $profile = $result['profile'];
+  $profile = $result['file'];
   if($profile == ""){
       $profile = "defaultprofile.jpg";
     }
+  $echo = 0;
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Insta Kilogram</title>
+	<title>Home | Insta Kilogram</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
         <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -32,245 +33,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
-	<style>
-        @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
-		/* Style for the menu on the left */
-        
-        .btn:active, .btn:focus {
-            outline:none !important;
-            box-shadow:none !important;}
-		.menu {
-			width: 16%;
-			position: fixed;
-			top: 0%;
-			left: 0;
-            border-right: 0.1px solid #b8b8b8;
-			background-color: #ffffff;
-			height: 100%;
-            
-		}
-
-		/* Style for the scrolling feed of posts in the middle */
-		.feed {
-            background-color: #ffffff;
-			width: 50%;
-			margin-left: 20%;
-			height: 100%;
-			overflow-y: scroll;
-		}
-        .feed {
-            -ms-overflow-style: none; /* IE and Edge */
-            scrollbar-width: none; /* Firefox */
-            
-        }
-        .feed::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Opera*/
-        }
-
-		/* Style for individual posts in the feed */
-		.post {
-			margin-left: 20%;
-			padding: 10px;
-			background-color: #fff;
-			width: 60%;
-			height: 700px;
-			display: inline-block;
-			vertical-align: top;
-            left: 20%;
-            
-            border-bottom: 2px solid #a6a6a6;
-		}
-        .logo{
-            position: absolute;
-            top: 8%;
-            left: 40%;
-            width: 100%;
-            transform: translate(-50%, -50%);
-            font-size: 25px;
-            font-style: italic;
-            padding-left: 22px;
-            font-weight: 500;
-            overflow: hidden;
-        }
-        .iconn{
-            position: absolute;
-            align-items: center;
-            top: 12%;
-            width: 100%;
-            min-height: 10px;
-            padding-left: 20px;
-            overflow: hidden;
-        }
-        .icon-link {
-              border-radius: 20px;
-              left: 30%;
-              width: 90%;
-              color: black;
-              display: inline-block;
-              margin-top: 15px;
-              padding-top: 10px;
-              padding-bottom: 10px;
-              overflow: hidden;
-        }
-        
-        .icon-link:hover {
-          background-color: #f5f5f5;
-        }
-        
-        .icon-link i {
-          margin-right: 20px;
-        }
-        
-        .icon-link span {
-          font-size: 20px;
-        }
-        .bi-house{
-            font-size: 25px;
-            line-height: 25px;
-            color:rgb(0, 0, 0);
-        }
-        .bi-search{
-            font-size: 25px;
-            line-height: 25px;
-            color:rgb(0, 0, 0);
-        }
-        .bi-plus-square{
-            font-size: 25px;
-            line-height: 25px;
-            color:rgb(0, 0, 0);
-        }
-        .bi-person-circle{
-            font-size: 25px;
-            line-height: 25px;
-            color:rgb(0, 0, 0);
-        }
-        .morelist{
-            position: absolute;
-            bottom: 3%;
-            left: 10%;
-        }
-        .bi-list{
-            color: #1c1c1c;
-            font-size: x-large;
-            font-weight: bolder;
-            overflow: hidden;
-            font-style: normal;
-        }
-        .posttop{
-            margin-left: 10%;
-            margin-bottom: 20px;
-			padding: 10px;
-			background-color: #fff;
-			width: 80%;
-			height: 100px;
-            left: 20%;
-            border: 1px solid black;
-            border-bottom: 2px solid #a6a6a6;
-        }
-        .ppt{
-			background-color: #fff;
-			width: 100%;
-			height: 10%;
-            border: 1px solid black;
-        }
-        .ppm{
-            margin-top: 10px;
-            background-color: #fff;
-			width: 100%;
-			height: 65%;
-            border: 1px solid black;
-        }
-        .ppd{
-            margin-top: 5px;
-            background-color: #fff;
-			width: 100%;
-			height: 10%;
-            border: 1px solid black;
-            display: flex;
-            flex-direction: row;
-        }
-        .ppdd{
-            margin-top: 5px;
-            background-color: #fff;
-			width: 100%;
-			height: 10%;
-        }
-        .bi-heart{
-            font-size: 30px;
-            line-height: 30px;
-            color:rgb(0, 0, 0);
-        }
-
-        .bi-heart-fill{
-            font-size: 30px;
-            line-height: 30px;
-            color:crimson;
-        }
-        .heart{
-            margin-left: 5px;
-            margin-right: 5px;
-            margin-top: 10px;
-        }
-        .chat{
-
-            margin-right: 5px;
-            margin-top: 7px;
-        }
-        .bi-chat{
-            font-size: 30px;
-            line-height: 30px;
-        }
-        .send{
-            margin-right: 190px;
-            margin-top: 11px;
-        }
-        .bi-send{
-            font-size: 30px;
-            line-height: 30px;
-        }
-        .book{
-            margin-top: 10px;
-        }
-        #pontinside .bi-bookmark{
-            font-size: 30px;
-            line-height: 30px;
-        }
-        #pontinside .bi-bookmark-fill{
-            font-size: 30px;
-            line-height: 30px;
-        }
-        .sid{
-            width: 30%;
-			position: absolute;
-			top: 0%;
-			right: 0;
-			height: 100%;
-        }
-        .text{
-            margin-top: 50px;
-            display: flex;
-            flex-direction: row;
-        }
-        .lefttext{
-          width: 100px;
-          height: 100px;
-          margin-left: 10px;
-          margin-right: 20px;
-        }
-        .righttext{
-            width: 300px;
-            height: 100px;
-        }
-        .rt{
-            width: 100%;
-            font-size: 20px;
-            margin-top: 15px;
-        }
-        .rd{
-            width: 100%;
-            margin-top: 0px;
-        }
-	</style>
+    <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
@@ -280,8 +43,8 @@
         if($_SESSION['loginID'] !=""){
             $connect = mysqli_connect("localhost","root","1234");
             mysqli_select_db($connect, "snsdb");
-            $sql = "select * from member where id = '$_SESSION[loginID]'";
-            $result = mysqli_fetch_array(mysqli_query($connect, $sql));
+            $sql_sidpro = "select * from member where id = '$_SESSION[loginID]'";
+            $result_sidpro = mysqli_fetch_array(mysqli_query($connect, $sql_sidpro));
         }
         else{
             exit();
@@ -306,7 +69,7 @@
                 <i class="bi bi-search"></i>
                 <span>검색</span>
             </a>
-            <a href="#" class="icon-link">
+            <a href="board.php" class="icon-link">
                 <i class="bi bi-plus-square"></i>
                 <span>만들기</span>
             </a>
@@ -364,7 +127,7 @@
             </div>
             <div class="modal-body">
                 <div class="input">
-                    <form method="post" action="snslogin_proc.php">
+                    <form method="post" action="b.php">
                         <div class="form-group">
                             <!--<label for="id">아이디</label>-->
                             <input type="text" class="form-control" id="id" name="id" placeholder="아이디를 입력하세요">
@@ -392,72 +155,112 @@
 		<div class="posttop">
 			
 		</div>
+        <?php
+            $connect = mysqli_connect("localhost","root","1234");
+            if(!$connect){
+                echo "dbms connect fail";
+                exit;
+            }
+            mysqli_select_db($connect, "snsdb");
+
+            
+            $sql = "SELECT * FROM board where id='$_SESSION[loginID]' order by reg_date desc";
+            $return = mysqli_query($connect, $sql);
+            $sqltest = "select * from board where id='$_SESSION[loginID]'";
+            $testquery = mysqli_fetch_array(mysqli_query($connect, $sqltest));
+            if($testquery['no'] == ""){
+                $echo = 1;
+            }
+            $count = 0;
+            while($result = mysqli_fetch_array($return)){
+                $count++;
+                $post_id = $result['no'];
+                $i_name = "i_".$post_id;
+                $j_name = "j_".$post_id;
+        ?>
 		<div class="post">
-            <div class="ppt">
+            <div class="ppt" id="post_<?php echo $post_id; ?>">
+                    <button type="button" class="btn btn-white" >
+                        <a href="/profile.php">
+                        <div class="home-profile-image">
+                            <img src="/upload/<?php echo $profile; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
+                        </div>
+                        <div calss>
 
+                        </div>
+                        </a>
+                    </button>
+                    <div>
+                </div>
             </div>
-            <div class="ppm">
-
+            <div class="ppm" id="post_<?php echo $post_id; ?>">
+                <?php if($result['file'] != ''){
+                    $image = $result['file'];
+                }else{
+                    $image = "defaultboardimage.jpg";
+                }
+                ?>
+                <img src="/upload/<?php echo $image; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
             </div>
-            <div class="ppd">
+            <div class="ppd" id="post_<?php echo $post_id; ?>">
                 <div class="heart">
-                <button type="button" class="btn btn-white">
+                <button type="button" class="btn btn-white" data-post-id="<?php echo $result['no']; ?>">
                     <i class="bi bi-heart"></i>
                 </button>
-                <script>
-                    var i = 0;
-                    $('.bi-heart').on('click',function(){
-                        if(i==0){
-                            $(this).removeClass('bi-heart');
-                            $(this).addClass('bi-heart-fill');
-                            i++;
-                        }else if(i==1){
-                            $(this).removeClass('bi-heart-fill');
-                            $(this).addClass('bi-heart');
-                            i--;
-                        }
-                        
-                    });
-                    
-                </script>
                 </div>
                 <div class="chat">
-                    <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#chatingmodal">
+                    <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#chatingmodal" data-post-id="<?php echo $result['no']; ?>">
                         <i class="bi bi-chat"></i>
                     </button>
                 </div>
                 <div class="send">
-                <button type="button" class="btn btn-white">
+                <button type="button" class="btn btn-white" data-post-id="<?php echo $result['no']; ?>">
                     <i class="bi bi-send"></i>
                 </button>
                 </div>
                 <div id="pontinside" class="book">
-                <button type="button" class="btn btn-white">
+                <button type="button" class="btn btn-white" data-post-id="<?php echo $result['no']; ?>">
                     <i class="bi bi-bookmark"></i>
-                    <script>
-                    var j = 0;
-                    $('.bi-bookmark').on('click',function(){
-                        if(j==0){
-                            $(this).removeClass('bi-bookmark');
-                            $(this).addClass('bi-bookmark-fill');
-                            j++;
-                        }else if(j==1){
-                            $(this).removeClass('bi-bookmark-fill');
-                            $(this).addClass('bi-bookmark');
-                            j--;
-                        }
-                        
-                    });
-                    
-                </script>
                 </button>
                 </div>
             </div>
-            <div class="ppdd">
-
+            <div class="ppdd" id="post_<?php echo $post_id; ?>">
+            
             </div>
         </div>
-
+        <script>
+            var <?php echo $i_name; ?> = 0;
+            var <?php echo $j_name; ?> = 0;
+            $('.btn-white[data-post-id="<?php echo $post_id; ?>"]').on('click', function() {
+                var post_id = $(this).data('post-id');
+                if($(this).find('.bi-heart').length > 0) {
+                    <?php echo $i_name; ?> = 1;
+                    $(this).find('.bi-heart').removeClass('bi-heart').addClass('bi-heart-fill');
+                } else {
+                    <?php echo $i_name; ?> = 0;
+                    $(this).find('.bi-heart-fill').removeClass('bi-heart-fill').addClass('bi-heart');
+                }
+                if($(this).find('.bi-bookmark').length > 0) {
+                    <?php echo $j_name; ?> = 1;
+                    $(this).find('.bi-bookmark').removeClass('bi-bookmark').addClass('bi-bookmark-fill');
+                } else {
+                    <?php echo $j_name; ?> = 0;
+                    $(this).find('.bi-bookmark-fill').removeClass('bi-bookmark-fill').addClass('bi-bookmark');
+                }
+            });
+        </script>
+            <?php    } ?>
+            <?php if($echo == 1){
+                ?>
+                <div calss="posttop">
+                    <div class="echo">
+                        <p>게시물이 없습니다.</p>
+                    </div>
+                </div>
+            <?php } ?>
+            
+            
+            
         <!-- 댓글modal -->
         <div class="modal fade" id="chatingmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -483,60 +286,28 @@
         </div>
         <!--    -->
 
-        <div class="post">
-            <div class="ppt">
-
-            </div>
-            <div class="ppm">
-
-            </div>
-            <div class="ppd">
-
-            </div>
-            <div class="ppdd">
-
-            </div>
-        </div>
     </div>
     
     <div class="sid">
         <div class="text">
             <div class="lefttext">
-                <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#imagemodal">
-                    <img src="/upload/<?php echo $profile; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
+                <button type="button" class="btn btn-white">
+                    <a href="/profile.php">
+                        <div class="home-left-profile-image">
+                        <img src="/upload/<?php echo $profile; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
+                        </div>
+                    </a>
                 </button>
             </div>
             <div class="righttext">
                 <div class="rt">
-                    <?php echo $result['name']; ?>
+                    <?php echo $result_sidpro['name']; ?>
                 </div>
                 <div class="rd">
-                  <?php echo $result['nickname']; ?>
+                  <?php echo $result_sidpro['nickname']; ?>
                 </div>
             </div>
         </div>
     </div>
-    <!-- 사진업로드 modal -->
-    <div class="modal fade" id="imagemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">사진 업로드</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="snsup_file.php" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                      <label for="upfile">파일 선택</label>
-                      <input type="file" class="form-control-file" id="upfile" name="upfile">
-                    </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">OK</button>
-            </form>
-            </div>
-          </div>
-        </div>
-      </div>
+    
 </body>

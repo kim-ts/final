@@ -3,21 +3,20 @@
   $id = $_SESSION['loginID'];
   $connect = mysqli_connect("localhost", "root", "1234");
   $database = mysqli_select_db($connect,"snsdb");
-  $sql = "select * from ".$id."profile order by reg_date desc"; 
+  $sql = "select * from member where id='$id'"; 
   $result = mysqli_fetch_array(mysqli_query($connect,$sql));
-  $profile = $result['file'];
+  $profile = $result['profile'];
   if($profile == ""){
       $profile = "defaultprofile.jpg";
     }
-  $countboard = 0;
-  $countfollow = 0;
-  $countfollower = 0;
 
+    $token = md5(time());
+    $_SESSION['boardtoken'] = $token;
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Profile | Insta Kilogram</title>
+	<title>Insta Kilogram</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
         <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -35,8 +34,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
     <link rel="stylesheet" href="style.css">
-	
 
 </head>
 <body>
@@ -130,7 +129,7 @@
             </div>
             <div class="modal-body">
                 <div class="input">
-                    <form method="post" action="b.php">
+                    <form method="post" action="snslogin_proc.php">
                         <div class="form-group">
                             <!--<label for="id">아이디</label>-->
                             <input type="text" class="form-control" id="id" name="id" placeholder="아이디를 입력하세요">
@@ -151,69 +150,46 @@
         </div>
       </div>
 
-
-	<!-- 프로필 상단 -->
-	<div class="p_feed">
-		<div class="p_post">
-      <div class="cont">
-        <div class="p_lefttext">
-        <form action="snsup_file.php" method="post" enctype="multipart/form-data" id="upload-form">
-          <div class="form-group">
-            <label for="upfile">
-              <div class="profile-image">
-                <img src="/upload/<?php echo $profile; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
-              </div>
-            </label>
-            <input type="file" class="form-control-file" id="upfile" name="upfile" style="display: none;" onchange="submitForm()">
-          </div>
-        </form>
-
-        <script>
-          function submitForm() {
-            document.getElementById("upload-form").submit();
-          }
-        </script>
-
-        </div>
-        
-        <div class="p_righttext">
-          <div class="p_rt">
-            <?php echo $result['name']; ?>
-          </div>
-          <div class="p_rm">
-            <div class="rm-1"><?php echo "게시물 ".$countboard; ?></div>
-            <div class="rm-2"><?php echo "팔로워 ".$countfollower; ?></div>
-            <div class="rm-3"><?php echo "팔로우 ".$countfollow; ?></div>
-          </div>
-          <div class="p_rd">
-            <?php echo $result['nickname']; ?>
-          </div>
-        </div>
-      </div>
+<div class="create_board">
+  <form action="board_insert.php" method="post" enctype="multipart/form-data">
+    <div class="button">
+      <label for="chooseFile">
+        <i class="bi bi-plus-square"></i>
+      </label>
+      <span> 사진 또는 동영상을 추가하세요</span>
     </div>
-  </div>
-  <!-- 사진업로드 modal 
-    <div class="modal fade" id="imagemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">사진 업로드</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="snsup_file.php" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                      <label for="upfile">파일 선택</label>
-                      <input type="file" class="form-control-file" id="upfile" name="upfile">
-                    </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">OK</button>
-            </form>
-            </div>
-          </div>
-        </div>
-      </div>-->
-</body>
+    <input type="file" id="chooseFile" name="chooseFile" accept="image/*" onchange="loadFile()">
+    <div id="imagePreview"></div>
+
+    <script>
+      function loadFile() {
+        var preview = document.querySelector('#imagePreview');
+        var file = document.querySelector('input[type=file]').files[0];
+        var reader = new FileReader();
+
+        reader.addEventListener("load", function() {
+          var image = new Image();
+          image.height = 100;
+          image.title = file.name;
+          image.src = this.result;
+          preview.appendChild(image);
+        }, false);
+
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+      }
+    </script>
+
+    <div class="mb-3">
+      <textarea class="form-control" id="content" name="content" rows="6" required placeholder="내용을 입력하세요"></textarea>
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <button type="submit" class="btn btn-primary">OK</button>
+    </div>
+  </form>
+</div>
+
+    
+    
+    </body>
 </html>
