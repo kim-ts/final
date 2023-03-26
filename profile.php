@@ -206,10 +206,10 @@
               $check_result = mysqli_query($connect, $check_query);
 
               if(mysqli_num_rows($check_result) > 0) {
-                echo '<button type="submit" name="follow">언팔로우</button>';
+                echo '<button type="submit" name="follow" class="btn btn-blue" id="unfollow">언팔로우</button>';
               }
               else {
-                echo '<button type="submit" name="follow">팔로우</button>';
+                echo '<button type="submit" name="follow" class="btn btn-white" id="unfollow">팔로우</button>';
               }
               ?>
             </form>
@@ -229,30 +229,11 @@
         </div>
       </div>
     </div>
+    <div class="profile_under">
+
+    </div>
   </div>
   
-  <!-- 사진업로드 modal 
-    <div class="modal fade" id="imagemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">사진 업로드</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="snsup_file.php" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                      <label for="upfile">파일 선택</label>
-                      <input type="file" class="form-control-file" id="upfile" name="upfile">
-                    </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">OK</button>
-            </form>
-            </div>
-          </div>
-        </div>
-      </div>-->
+
 </body>
 </html>

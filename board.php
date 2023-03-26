@@ -75,7 +75,7 @@
                 <i class="bi bi-plus-square"></i>
                 <span>만들기</span>
             </a>
-            <a href="profile.php" class="icon-link">
+            <a href="profile.php?id=<?php echo $_SESSION['loginID']; ?>" class="icon-link">
                 <i class="bi bi-person-circle"></i>
                 <span>프로필</span>
             </a>

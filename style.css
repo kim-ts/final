@@ -12,7 +12,12 @@
 		background-color: #ffffff;
 		height: 100%;          
 	}
-
+    #unfollow {
+        background-color: rgb(68, 68, 255);
+    }
+    #unfollow:hover {
+        background-color: rgb(125, 125, 255);
+    }
 	/* Style for the scrolling feed of posts in the middle */
 	.feed {          
         background-color: #ffffff;
@@ -279,10 +284,11 @@
     }
     .p_feed {          
         background-color: #ffffff;
-		width: 70%;
-		margin-left: 15%;
+		width: 100%;
+		margin-left: 0%;
 		height: 100%;
 		overflow-y: scroll;
+        
 	}      
     .p_feed {          
         -ms-overflow-style: none; 
@@ -413,14 +419,15 @@
 
 	/* profile.php */
 	.p_post {
-		margin-left: 20%;
+		margin-left: 25%;
 		padding: 10px;
 		background-color: #fff;
-		width: 120%;
+		width: 50%;
 		height: 250px;
 		display: inline-block;
 		vertical-align: top;
         left: 20%;
+        
         border-bottom: 1px solid #a6a6a6;
 	}
     

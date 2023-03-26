@@ -165,6 +165,9 @@
                 $posttopfriend = "select * from ".$id1."profile order by reg_date desc"; 
                 $posttopfriendquery = mysqli_fetch_array(mysqli_query($connect,$posttopfriend));
                 $profiletim = $posttopfriendquery['file'];
+                if($profiletim == ""){
+                    $profiletim = "defaultprofile.jpg";
+                }
             ?>
                 <button type="button" class="btn btn-white" >
                     <a href="/profile.php?id=<?php echo $id1; ?>">
