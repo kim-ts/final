@@ -73,7 +73,7 @@
                 <i class="bi bi-plus-square"></i>
                 <span>만들기</span>
             </a>
-            <a href="profile.php" class="icon-link">
+            <a href="profile.php?id=<?php echo $_SESSION['loginID']; ?>" class="icon-link">
                 <i class="bi bi-person-circle"></i>
                 <span>프로필</span>
             </a>
@@ -162,9 +162,21 @@
                 exit;
             }
             mysqli_select_db($connect, "snsdb");
+            /* 팔로우 한 사람 가져오기 */
+            $friend = "select * from ".$_SESSION['loginID']."_follow";
+            $friendquery = mysqli_query($connect,$friend);
+            $id = '';
+            while($row = mysqli_fetch_array($friendquery)){
+                $id = "id = '".$row['id']."' || ";
+            }
+            $id = rtrim($id, '||');
+            if(!empty($id)) {
+                $id = "|| ".$id;
+                $id = rtrim($id, '|| ');
+            }
+            /* */
 
-            
-            $sql = "SELECT * FROM board where id='$_SESSION[loginID]' order by reg_date desc";
+            $sql = "select * from board where id='$_SESSION[loginID]' ".$id." order by reg_date desc";
             $return = mysqli_query($connect, $sql);
             $sqltest = "select * from board where id='$_SESSION[loginID]'";
             $testquery = mysqli_fetch_array(mysqli_query($connect, $sqltest));
@@ -177,20 +189,30 @@
                 $post_id = $result['no'];
                 $i_name = "i_".$post_id;
                 $j_name = "j_".$post_id;
+                
+                $idpost = $result['id'];
+                $callprofile = "select * from ".$idpost."profile order by reg_date desc"; 
+                    /* 프로필 사진 가져오기 */
+                     $callprofilequery = mysqli_fetch_array(mysqli_query($connect,$callprofile));
+                     $profileim = $callprofilequery['file'];
+                     if($profile == ""){
+                         $profile = "defaultprofile.jpg";
+    }
         ?>
 		<div class="post">
             <div class="ppt" id="post_<?php echo $post_id; ?>">
+                <div>
                     <button type="button" class="btn btn-white" >
-                        <a href="/profile.php">
+                        <a href="/profile.php?id=<?php echo $idpost; ?>">
                         <div class="home-profile-image">
-                            <img src="/upload/<?php echo $profile; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
-                        </div>
-                        <div calss>
-
+                            <img src="/upload/<?php echo $profileim; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
                         </div>
                         </a>
                     </button>
-                    <div>
+                    
+                </div>
+                <div class="pptr">
+                    <p><?php echo $idpost; echo "<br>"; echo $result['reg_date'] ?> </p>
                 </div>
             </div>
             <div class="ppm" id="post_<?php echo $post_id; ?>">
@@ -292,7 +314,7 @@
         <div class="text">
             <div class="lefttext">
                 <button type="button" class="btn btn-white">
-                    <a href="/profile.php">
+                    <a href="/profile.php?id=<?php echo $_SESSION['loginID']; ?>">
                         <div class="home-left-profile-image">
                         <img src="/upload/<?php echo $profile; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
                         </div>
@@ -307,6 +329,48 @@
                   <?php echo $result_sidpro['nickname']; ?>
                 </div>
             </div>
+        </div>
+        <div class="under">
+            <div class="under_top">
+                <p>회원님을 위한 추천</p>
+            </div>
+            <?php 
+                $connect = mysqli_connect("localhost","root","1234");
+                $database = mysqli_select_db($connect,"snsdb");
+                $member = "SELECT * FROM member ORDER BY RAND() LIMIT 5;"; 
+                $memberquery = mysqli_query($connect,$member);
+                
+
+                while($row = mysqli_fetch_array($memberquery)){
+                    $sql = "select * from ".$row['id']."profile order by reg_date desc"; 
+                    $result_query = mysqli_query($connect,$sql); 
+                    $fetch = mysqli_fetch_array($result_query);
+                    $profile = $fetch['file'];
+                    if($profile == ""){
+                        $profile = "defaultprofile.jpg";
+                    }
+            ?>
+                   
+            <div class="un_text">
+            <div class="un_lefttext">
+                <button type="button" class="btn btn-white">
+                    <a href="/profile.php?id=<?php echo $row['id']; ?>">
+                        <div class="home-left-profile-image">
+                            <img src="/upload/<?php echo $profile; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
+                        </div>
+                    </a>
+                </button>
+            </div>
+            <div class="un_righttext">
+                <div class="un_rt">
+                    <?php echo $row['name']; ?>
+                </div>
+                <div class="un_rd">
+                  <?php echo $row['nickname']; ?>
+                </div>
+            </div>
+            <?php } ?>
+        </div>
         </div>
     </div>
     

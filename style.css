@@ -135,6 +135,12 @@
 		height: 10%;          
         
     }      
+    .pptr{
+        position: relative;
+        margin-left: 100px;
+        width: 40%;
+        
+    }
     /*.ppm{    
         position: relative;      
         margin-top: 10px;          
@@ -243,7 +249,8 @@
     .text{          
         margin-top: 50px;          
         display: flex;          
-        flex-direction: row;      
+        flex-direction: row;  
+          
     }      
     .lefttext{     
         position: relative;   
@@ -332,6 +339,53 @@
         left: 45%;
         transform: translate(-50%,-50%);
     }
+    
+    .under{
+        margin-top: 0px;       
+        height: 700px;   
+        
+        
+    }
+    .under_top{
+        color: rgb(143, 143, 143);
+    }
+    .un_text{     
+              
+        width: 500px;
+        height: auto;             
+        display: flex;
+        flex-wrap: wrap;
+        
+    }      
+    .un_lefttext{     
+        position: relative;   
+        width: 100px;        
+        height: 100px;        
+        margin-left: 10px;        
+        margin-right: 20px;   
+        
+    }      
+    .un_righttext{  
+               
+        width: 200px;          
+        height: 100px;   
+        
+    }      
+    .un_rt{          
+        width: 100%;          
+        font-size: 20px;          
+        margin-top: 15px;      
+        
+    }      
+    .un_rd{          
+        width: 100%;          
+        margin-top: 0px; 
+             
+    }
+    .un_end{          
+        color: #000;
+        
+    }
 
 
 
@@ -363,15 +417,18 @@
       margin-top: 2%;
     }
     .p_righttext{
-      width: 500px;
+        position: relative;
+      width: 600px;
       height: 200px;
       
     }
     .p_rt{
+    
       width: 100%;
       height: 50px;
       font-size: 20px;
       margin-top: 20px;
+      
     }
     .p_rm{
       width: 100%;
@@ -380,6 +437,7 @@
       
       display: flex;
       flex-direction: row;
+     
     }
     .p_rd{
       width: 100%;
@@ -435,6 +493,12 @@
         height: auto;
         min-width: 100%;
         min-height: 100%;
+      }
+      .follow{
+        position:absolute;
+        right: 0;
+        
+
       }
 
 

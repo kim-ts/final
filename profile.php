@@ -1,6 +1,6 @@
 <?php
   session_start();
-  $id = $_SESSION['loginID'];
+  $id = $_GET['id'];
   $connect = mysqli_connect("localhost", "root", "1234");
   $database = mysqli_select_db($connect,"snsdb");
   $sql = "select * from ".$id."profile order by reg_date desc"; 
@@ -9,10 +9,19 @@
   if($profile == ""){
       $profile = "defaultprofile.jpg";
     }
-  $countboard = 0;
-  $countfollow = 0;
-  $countfollower = 0;
-
+  $counta = "select * from ".$id."_account";
+  $countquery = mysqli_fetch_array(mysqli_query($connect,$counta));
+  
+  $board_count = "SELECT COUNT(*) as count FROM board where id='$id'";
+  $board_count_query = mysqli_fetch_array(mysqli_query($connect,$board_count));
+  $countboard = $board_count_query['count'];
+  $countfollow = $countquery['follow'];
+  $countfollower = $countquery['follower'];
+  
+  $callname = "select * from member where id = '$id'";
+  $callnamequery = mysqli_fetch_array(mysqli_query($connect,$callname));
+  $name = $callnamequery['name'];
+  $nickname = $callnamequery['nickname'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -76,7 +85,7 @@
                 <i class="bi bi-plus-square"></i>
                 <span>만들기</span>
             </a>
-            <a href="profile.php" class="icon-link">
+            <a href="profile.php?id=<?php echo $_SESSION['loginID']; ?>" class="icon-link">
                 <i class="bi bi-person-circle"></i>
                 <span>프로필</span>
             </a>
@@ -159,39 +168,69 @@
         <div class="p_lefttext">
         <form action="snsup_file.php" method="post" enctype="multipart/form-data" id="upload-form">
           <div class="form-group">
+          <?php if($_SESSION['loginID'] ==  $id = $_GET['id']){?>
             <label for="upfile">
-              <div class="profile-image">
-                <img src="/upload/<?php echo $profile; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
-              </div>
+                <div class="profile-image">
+                  <img src="/upload/<?php echo $profile; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
+                </div>
             </label>
             <input type="file" class="form-control-file" id="upfile" name="upfile" style="display: none;" onchange="submitForm()">
+            <?php  }else{?>
+                <div class="profile-image">
+                  <img src="/upload/<?php echo $profile; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
+                </div>
+              <?php  }?>
           </div>
         </form>
-
+        
         <script>
           function submitForm() {
             document.getElementById("upload-form").submit();
           }
         </script>
-
+        
         </div>
         
         <div class="p_righttext">
           <div class="p_rt">
-            <?php echo $result['name']; ?>
+            <?php echo $name; ?>
+          
+          <div class="follow">
+            <?php if($_SESSION['loginID'] != $id){ ?>
+            <!-- 팔로우 버튼 -->
+            <form method="post" action="follow.php">
+              <?php
+              echo '<input type="hidden" name="id" value="'.$id.'">';
+              // 이미 팔로우한 상태인 경우
+              $check_query = "SELECT * FROM ".$_SESSION['loginID']."_follow WHERE id='$id'";
+              $check_result = mysqli_query($connect, $check_query);
+
+              if(mysqli_num_rows($check_result) > 0) {
+                echo '<button type="submit" name="follow">언팔로우</button>';
+              }
+              else {
+                echo '<button type="submit" name="follow">팔로우</button>';
+              }
+              ?>
+            </form>
+            <?php } ?>
           </div>
+          </div>
+            
+          
           <div class="p_rm">
             <div class="rm-1"><?php echo "게시물 ".$countboard; ?></div>
             <div class="rm-2"><?php echo "팔로워 ".$countfollower; ?></div>
             <div class="rm-3"><?php echo "팔로우 ".$countfollow; ?></div>
           </div>
           <div class="p_rd">
-            <?php echo $result['nickname']; ?>
+            <?php echo $nickname; ?>
           </div>
         </div>
       </div>
     </div>
   </div>
+  
   <!-- 사진업로드 modal 
     <div class="modal fade" id="imagemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
