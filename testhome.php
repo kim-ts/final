@@ -152,9 +152,31 @@
 	<!-- The scrolling feed of posts in the middle -->
 	<div class="feed">
 		<!-- Example posts -->
-		<div class="posttop">
-			
+		
+        <div class="posttop">
+			<?php  
+                /* 팔로우 한 사람 가져오기 */
+                $friend1 = "select * from ".$_SESSION['loginID']."_follow";
+                $friendquery1 = mysqli_query($connect,$friend1);
+                
+                while($row1 = mysqli_fetch_array($friendquery1)){
+                    $id1 = $row1['id'];
+                
+                $posttopfriend = "select * from ".$id1."profile order by reg_date desc"; 
+                $posttopfriendquery = mysqli_fetch_array(mysqli_query($connect,$posttopfriend));
+                $profiletim = $posttopfriendquery['file'];
+            ?>
+                <button type="button" class="btn btn-white" >
+                    <a href="/profile.php?id=<?php echo $id1; ?>">
+                        <div class="top-profile-image">
+                        
+                            <img src="/upload/<?php echo $profiletim; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
+                        </div>
+                    </a>
+                </button>
+            <?php }?>
 		</div>
+		
         <?php
             $connect = mysqli_connect("localhost","root","1234");
             if(!$connect){
@@ -167,7 +189,7 @@
             $friendquery = mysqli_query($connect,$friend);
             $id = '';
             while($row = mysqli_fetch_array($friendquery)){
-                $id = "id = '".$row['id']."' || ";
+                $id .= "id = '".$row['id']."' || ";
             }
             $id = rtrim($id, '||');
             if(!empty($id)) {
@@ -178,7 +200,7 @@
 
             $sql = "select * from board where id='$_SESSION[loginID]' ".$id." order by reg_date desc";
             $return = mysqli_query($connect, $sql);
-            $sqltest = "select * from board where id='$_SESSION[loginID]'";
+            $sqltest = "select * from board where id='$_SESSION[loginID]' ".$id." order by reg_date desc";
             $testquery = mysqli_fetch_array(mysqli_query($connect, $sqltest));
             if($testquery['no'] == ""){
                 $echo = 1;
@@ -197,7 +219,7 @@
                      $profileim = $callprofilequery['file'];
                      if($profile == ""){
                          $profile = "defaultprofile.jpg";
-    }
+                        }
         ?>
 		<div class="post">
             <div class="ppt" id="post_<?php echo $post_id; ?>">
