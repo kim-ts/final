@@ -295,10 +295,10 @@
                 
                 <div class="comment">
                         <?php 
-                        $callcomment = "select * from ".$sumresult['id']."_comment_".$sumresult['reg_date'].";";
-                        $callcommentquery = mysqli_query($connect, $callcomment);
-                        while($ccmresult = mysqli_fetch_array($callcommentquery)){
-                        $seperate = $ccmresult['no'];
+/*      */                  $callcomment = "select * from ".$sumresult['id']."_comment_".$sumresult['reg_date'].";";
+/*      */                  $callcommentquery = mysqli_query($connect, $callcomment);
+/*      */                  while($ccmresult = mysqli_fetch_array($callcommentquery)){
+                            $seperate = $ccmresult['no'];
                         ?>
                         <div class="bb">
                     <div class="compro" data-post-id="<?php echo "compro".$ccmresult['no']; ?>">
@@ -316,7 +316,7 @@
                     </div>
                     <div class="callcom" data-post-id="<?php echo "callcom".$ccmresult['no']; ?>">
                         <?php
-                        echo $ccmresult['id']." : ".$ccmresult['comm'];
+                        echo $ccmresult['no']." ".$ccmresult['id']." : ".$ccmresult['comm'];
                         echo "<br>";
                         ?>
                     </div>

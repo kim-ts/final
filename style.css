@@ -40,10 +40,11 @@
 	/* Style for individual posts in the feed */
 	.post {
 		margin-left: 20%;
+        
 		padding: 10px;
 		background-color: #fff;
 		width: 60%;
-		height: 900px;
+		height: 1200px;
 		display: inline-block;
 		vertical-align: top;          
         left: 20%;                    
@@ -202,7 +203,7 @@
         background-color: #fff;
 		width: 100%;
 		height: 13%;  
-            
+        word-wrap: break-word;
     }      
     .ppddtop{
         height: 30px;
@@ -225,29 +226,21 @@
     }
     
     .comment {
-        
-        height: auto;
-        
+        width: 100%;
+        height: 100%;
+        word-break:break-all;
         overflow-y: scroll; /* add overflow property to enable scrolling */
+      }
+      .callcom{
+        height: auto;
+        border-bottom: 1px solid rgb(52, 133, 43);
       }
       
       /* style scrollbar for WebKit-based browsers */
       .comment::-webkit-scrollbar {
-        width: 0.5em;
+        display: none; 
       }
       
-      .comment::-webkit-scrollbar-track {
-        background: #f1f1f1;
-      }
-      
-      .comment::-webkit-scrollbar-thumb {
-        background-color: #888;
-        border-radius: 1em;
-      }
-      
-      .comment::-webkit-scrollbar-thumb:hover {
-        background: #555;
-      }
     .bi-heart{          
         font-size: 30px;          
         line-height: 30px;          
@@ -389,13 +382,11 @@
     }
     .last-home-profile-image {
         display: inline-block;
-        width: 10px;
-        height: 10px;
+        width: 30px;
+        height: 30px;
         overflow: hidden;
         border-radius: 50%;
-        position: absolute;
-        top: 50%;
-        left: 0;
+        margin-top: 10px;
         transform: translate(0%,-50%);
         background-image: linear-gradient(to top right, gold, rgb(250, 133, 79), purple);
         border: 2px solid transparent;
