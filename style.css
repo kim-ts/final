@@ -202,32 +202,33 @@
         background-color: #fff;
 		width: 100%;
 		height: 13%;  
-        border: 1px solid black;    
+            
     }      
     .ppddtop{
         height: 30px;
-        border: 1px solid rgb(255, 136, 0); 
+         
         display: flex;
     }
     .likenum{
         font-size: 10px;
         font-weight: 600;
-        border: 1px solid rgba(255, 234, 0, 0.797); 
+        
     }
     .commentnum{
         font-size: 10px;
         margin-left: 30px;
         font-weight: 600;
-        border: 1px solid rgb(47, 255, 0); 
+        
     }
     .displaycontent{
-        border: 1px solid rgb(155, 0, 155); 
+        border-bottom: 1px solid rgb(88, 113, 255); 
     }
     
     .comment {
+        
         height: auto;
-        border: 1px solid rgb(0, 28, 155);
-        overflow: auto; /* add overflow property to enable scrolling */
+        
+        overflow-y: scroll; /* add overflow property to enable scrolling */
       }
       
       /* style scrollbar for WebKit-based browsers */
@@ -385,6 +386,28 @@
       max-width: 100%;
       height: 100%;
       border-radius: 50%;
+    }
+    .last-home-profile-image {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        overflow: hidden;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translate(0%,-50%);
+        background-image: linear-gradient(to top right, gold, rgb(250, 133, 79), purple);
+        border: 2px solid transparent;
+    }
+    .last-home-profile-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      max-width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      
     }
     .top-profile-image {
         display: inline-block;
@@ -584,3 +607,9 @@
 		background-color: #ffffff;
 		height: 100%;          
 	}
+
+
+    .bb{
+        display: flex;
+        height: auto;
+    }

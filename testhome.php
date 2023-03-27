@@ -257,7 +257,7 @@
                 </button>
                 </div>
                 <div class="chat">
-                    <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#chatingmodal" data-post-id="<?php echo $result['no']; ?>">
+                    <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#chatingmodal_<?php echo $post_id; ?>" data-post-id="<?php echo $result['no']; ?>">
                         <i class="bi bi-chat"></i>
                     </button>
                 </div>
@@ -283,16 +283,45 @@
                     </div>
                     <div class="commentnum" id="post_<?php echo $post_id; ?>">
                         <?php 
-                            
                             echo "댓글 ".$sumresult['sum_comment']."개";
                         ?>
                     </div>
                 </div>
                 <div class="displaycontent">
-
+                    <?php 
+                        echo $sumresult['content'];
+                    ?>
                 </div>
+                
                 <div class="comment">
-
+                        <?php 
+                        $callcomment = "select * from ".$sumresult['id']."_comment_".$sumresult['reg_date'].";";
+                        $callcommentquery = mysqli_query($connect, $callcomment);
+                        while($ccmresult = mysqli_fetch_array($callcommentquery)){
+                        $seperate = $ccmresult['no'];
+                        ?>
+                        <div class="bb">
+                    <div class="compro" data-post-id="<?php echo "compro".$ccmresult['no']; ?>">
+                        <?php 
+                            $callcompro = "select * from ".$ccmresult['id']."profile order by reg_date desc";
+                            $callcomproquery = mysqli_fetch_array(mysqli_query($connect, $callcompro));
+                        ?>
+                        <button type="button" class="btn btn-white" >
+                            <a href="/profile.php?id=<?php echo $callcomproquery['id']; ?>">
+                            <div class="last-home-profile-image">
+                                <img src="/upload/<?php echo $callcomproquery['file']; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
+                            </div>
+                        </a>
+                        </button>
+                    </div>
+                    <div class="callcom" data-post-id="<?php echo "callcom".$ccmresult['no']; ?>">
+                        <?php
+                        echo $ccmresult['id']." : ".$ccmresult['comm'];
+                        echo "<br>";
+                        ?>
+                    </div>
+                    </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -301,6 +330,7 @@
             var <?php echo $j_name; ?> = 0;
             $('.btn-white[data-post-id="<?php echo $post_id; ?>"]').on('click', function() {
                 var post_id = $(this).data('post-id');
+                console.log(post_id);
                 if($(this).find('.bi-heart').length > 0) {
                     <?php echo $i_name; ?> = 1;
                     $(this).find('.bi-heart').removeClass('bi-heart').addClass('bi-heart-fill');
@@ -330,7 +360,7 @@
             
             
         <!-- 댓글modal -->
-        <div class="modal fade" id="chatingmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="chatingmodal_<?php echo $post_id; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -422,4 +452,4 @@
         </div>
     </div>
     
-</body>
+</body> 
