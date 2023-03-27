@@ -204,6 +204,49 @@
 		height: 13%;  
         border: 1px solid black;    
     }      
+    .ppddtop{
+        height: 30px;
+        border: 1px solid rgb(255, 136, 0); 
+        display: flex;
+    }
+    .likenum{
+        font-size: 10px;
+        font-weight: 600;
+        border: 1px solid rgba(255, 234, 0, 0.797); 
+    }
+    .commentnum{
+        font-size: 10px;
+        margin-left: 30px;
+        font-weight: 600;
+        border: 1px solid rgb(47, 255, 0); 
+    }
+    .displaycontent{
+        border: 1px solid rgb(155, 0, 155); 
+    }
+    
+    .comment {
+        height: auto;
+        border: 1px solid rgb(0, 28, 155);
+        overflow: auto; /* add overflow property to enable scrolling */
+      }
+      
+      /* style scrollbar for WebKit-based browsers */
+      .comment::-webkit-scrollbar {
+        width: 0.5em;
+      }
+      
+      .comment::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+      
+      .comment::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 1em;
+      }
+      
+      .comment::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
     .bi-heart{          
         font-size: 30px;          
         line-height: 30px;          

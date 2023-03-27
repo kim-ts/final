@@ -209,6 +209,7 @@
                 $echo = 1;
             }
             $count = 0;
+/*  while 문 시작    */
             while($result = mysqli_fetch_array($return)){
                 $count++;
                 $post_id = $result['no'];
@@ -272,7 +273,27 @@
                 </div>
             </div>
             <div class="ppdd" id="post_<?php echo $post_id; ?>">
-            
+                <div class="ppddtop">
+                    <div class="likenum" id="post_<?php echo $post_id; ?>">
+                        <?php  
+                            $sum = "select * from board where no='$post_id'";
+                            $sumresult = mysqli_fetch_array(mysqli_query($connect, $sum));
+                            echo "좋아요 ".$sumresult['sum_like']."개";
+                        ?>
+                    </div>
+                    <div class="commentnum" id="post_<?php echo $post_id; ?>">
+                        <?php 
+                            
+                            echo "댓글 ".$sumresult['sum_comment']."개";
+                        ?>
+                    </div>
+                </div>
+                <div class="displaycontent">
+
+                </div>
+                <div class="comment">
+
+                </div>
             </div>
         </div>
         <script>
@@ -296,7 +317,7 @@
                 }
             });
         </script>
-            <?php    } ?>
+            
             <?php if($echo == 1){
                 ?>
                 <div calss="posttop">
@@ -304,7 +325,7 @@
                         <p>게시물이 없습니다.</p>
                     </div>
                 </div>
-            <?php } ?>
+                <?php } ?>
             
             
             
@@ -317,7 +338,7 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="chat.php" method="post">
+                        <form action="chat.php?no=<?php echo $result['no']; ?>&&id=<?php echo $idpost ?>" method="post">
                           <div class="mb-3">
                             <label for="message-text" class="col-form-label">댓글 내용:</label>
                             <textarea class="form-control" id="content" name="content" rows="6" required placeholder="내용을 입력하세요"></textarea>
@@ -332,6 +353,8 @@
             </div>
         </div>
         <!--    -->
+        
+        <?php    } ?><!-- while 문 끝 -->
 
     </div>
     

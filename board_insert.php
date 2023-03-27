@@ -80,10 +80,10 @@
     $createboardlike = "call create_boardlike_table('$id','$now')";
     $createboardcomum = "call create_boardcomnum_table('$id','$now')";
     $createboardcomment = "call create_comment_table('$id','$now')";
-    $cominserttrigger = "create trigger ".$id.$now."_com_ins_t after insert on ".$id."_comnum_".$now." for each row  update board set sum_comment = sum_comment + 1;";
-    $comdeltrigger = "create trigger ".$id.$now."_com_del_t after delete on ".$id."_comnum_".$now." for each row  update board set sum_comment = sum_comment - 1;";
-    $likeinserttrigger = "create trigger ".$id.$now."_com_l_t after insert on ".$id."_like_".$now." for each row  update board set sum_like = sum_like + 1;";
-    $likedeltrigger = "create trigger ".$id.$now."_com_d_t after delete on ".$id."_like_".$now." for each row  update board set sum_like = sum_like - 1;";
+    $cominserttrigger = "create trigger ".$id.$now."_com_ins_t after insert on ".$id."_comnum_".$now." for each row  update board set sum_comment = sum_comment + 1 where id='$id' and reg_date='$now';";
+    $comdeltrigger = "create trigger ".$id.$now."_com_del_t after delete on ".$id."_comnum_".$now." for each row  update board set sum_comment = sum_comment - 1 where id='$id' and reg_date='$now';";
+    $likeinserttrigger = "create trigger ".$id.$now."_com_l_t after insert on ".$id."_like_".$now." for each row  update board set sum_like = sum_like + 1 where id='$id' and reg_date='$now';";
+    $likedeltrigger = "create trigger ".$id.$now."_com_d_t after delete on ".$id."_like_".$now." for each row  update board set sum_like = sum_like - 1 where id='$id' and reg_date='$now';";
 
     if($return){
         $move_result = move_uploaded_file($tmp_name, "./upload/$name");
