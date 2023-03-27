@@ -317,7 +317,7 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="board_insert.php" method="post">
+                        <form action="chat.php" method="post">
                           <div class="mb-3">
                             <label for="message-text" class="col-form-label">댓글 내용:</label>
                             <textarea class="form-control" id="content" name="content" rows="6" required placeholder="내용을 입력하세요"></textarea>

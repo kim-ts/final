@@ -220,8 +220,17 @@
           
           <div class="p_rm">
             <div class="rm-1"><?php echo "게시물 ".$countboard; ?></div>
-            <div class="rm-2"><?php echo "팔로워 ".$countfollower; ?></div>
-            <div class="rm-3"><?php echo "팔로우 ".$countfollow; ?></div>
+            
+            <div class="rm-2">
+              <button type="button" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#followermodal" >
+                <?php echo "팔로워 ".$countfollower; ?>
+              </button>
+            </div>
+            <div class="rm-3">
+              <button type="button" class="btn btn-blue" data-bs-toggle="modal" data-bs-target="#followmodal" >
+                <?php echo "팔로우 ".$countfollow; ?>
+              </button>
+            </div>
           </div>
           <div class="p_rd">
             <?php echo $nickname; ?>
@@ -233,7 +242,37 @@
 
     </div>
   </div>
-  
-
+  <!-- 팔로워 목록 -->
+      <div class="modal fade" id="followermodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <?php
+                
+                 $followerid = "select * from ".$id."_follower order by no desc"; 
+                 $followeridquery = mysqli_query($connect,$followerid); 
+                 while($follower = mysqli_fetch_array($followeridquery)){
+                echo $follower['id'] . '<br>';
+                }?>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 팔로우 목록 -->
+      <div class="modal fade" id="followmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <?php
+                
+                 $followid = "select * from ".$id."_follow order by no desc"; 
+                 $followidquery = mysqli_query($connect,$followid); 
+                 while($follow = mysqli_fetch_array($followidquery)){
+                echo $follow['id'] . '<br>';
+                }?>
+            </div>
+          </div>
+        </div>
+      </div>
 </body>
 </html>
