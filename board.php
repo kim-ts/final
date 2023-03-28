@@ -129,7 +129,7 @@
             </div>
             <div class="modal-body">
                 <div class="input">
-                    <form method="post" action="snslogin_proc.php">
+                    <form method="post" action="b.php">
                         <div class="form-group">
                             <!--<label for="id">아이디</label>-->
                             <input type="text" class="form-control" id="id" name="id" placeholder="아이디를 입력하세요">
