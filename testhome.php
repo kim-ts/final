@@ -221,8 +221,8 @@
                     /* 프로필 사진 가져오기 */
                      $callprofilequery = mysqli_fetch_array(mysqli_query($connect,$callprofile));
                      $profileim = $callprofilequery['file'];
-                     if($profile == ""){
-                         $profile = "defaultprofile.jpg";
+                     if($profileim == ""){
+                         $profileim = "defaultprofile.jpg";
                         }
         ?>
 		<div class="post">
@@ -305,24 +305,35 @@
 /*      */                  $callcommentquery = mysqli_query($connect, $callcomment);
 /*      */                  while($ccmresult = mysqli_fetch_array($callcommentquery)){
                             $seperate = $ccmresult['no'];
+
+                            
                         ?>
                         <div class="bb">
                     <div class="compro" data-post-id="<?php echo "compro".$ccmresult['no']; ?>">
                         <?php 
-                            $callcompro = "select * from ".$ccmresult['id']."profile order by reg_date desc";
-                            $callcomproquery = mysqli_fetch_array(mysqli_query($connect, $callcompro));
+                            $callcompro1 = "select * from ".$ccmresult['id']."profile order by reg_date desc";
+                            $callcomproquery1 = mysqli_fetch_array(mysqli_query($connect, $callcompro1));
+                            $profileim1 = $callcomproquery1['file'];
+                            if($profileim1 != ''){
+                                $bimage = $profileim1;
+                            }else{
+                                $bimage = "defaultboardimage.jpg";
+                            }
+                            $name = "select * from member where id='$ccmresult[id]'";
+                            $namequery = mysqli_fetch_array(mysqli_query($connect, $name));
+                            $named = $namequery['name'];
                         ?>
                         <button type="button" class="btn btn-white" >
-                            <a href="/profile.php?id=<?php echo $callcomproquery['id']; ?>">
+                            <a href="/profile.php?id=<?php echo $callcomproquery1['id']; ?>">
                             <div class="last-home-profile-image">
-                                <img src="/upload/<?php echo $callcomproquery['file']; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
+                                <img src="/upload/<?php echo $bimage; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
                             </div>
                         </a>
                         </button>
                     </div>
                     <div class="callcom" data-post-id="<?php echo "callcom".$ccmresult['no']; ?>">
                         <?php
-                        echo $ccmresult['no']." ".$ccmresult['id']." : ".$ccmresult['comm'];
+                        echo $ccmresult['no']." ".$named." : ".$ccmresult['comm'];
                         echo "<br>";
                         ?>
                     </div>
