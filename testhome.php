@@ -240,6 +240,12 @@
                 <div class="pptr">
                     <p><?php echo $idpost; echo "<br>"; echo $result['reg_date'] ?> </p>
                 </div>
+                <div class="pptrrr">
+                    <a href="deleteboard.php?id=<?php echo $idpost; ?> && reg_date=<?php echo $result['reg_date'];?> && ssid=<?php echo $_SESSION['loginID'];?>" class="icon-x">
+                        <i class="bi bi-x"></i>
+                        <span>삭제</span>
+                    </a>
+                </div>
             </div>
             <div class="ppm" id="post_<?php echo $post_id; ?>">
                 <?php if($result['file'] != ''){
