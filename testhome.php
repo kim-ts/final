@@ -265,13 +265,21 @@
                 }else{
                     $image = "defaultboardimage.jpg";
                 }
+                        $query = "SELECT COUNT(*) as count FROM ".$idpost."_like_".$regdatepost." where id='$_SESSION[loginID]'";
+                        $mysql = mysqli_fetch_array(mysqli_query($connect, $query));
+                        $num = "num_".$mysql['count'];
+                        $numcount = $mysql['count'];
                 ?>
                 <img src="/upload/<?php echo $image; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
             </div>
             <div class="ppd" id="post_<?php echo $post_id; ?>">
                 <div class="heart">
 <!--좋아요-->       <button type="button" class="btn btn-white" data-post-id="<?php echo $result['no']; ?>">
-                        <i class="bi bi-heart"></i>
+                        <?php if($numcount >= 1){?>
+                            <i class="bi bi-heart-fill"></i>
+                        <?php }else{?>
+                            <i class="bi bi-heart"></i>
+                        <?php }?>  
                     </button>
                 </div>
                 <div class="chat">
