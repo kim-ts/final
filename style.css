@@ -12,6 +12,7 @@
 		background-color: #ffffff;
 		height: 100%;          
 	}
+    
     #unfollow {
         background-color: rgb(68, 68, 255);
     }
@@ -136,12 +137,30 @@
         margin-bottom: 20px;
 		padding: 10px;
 		background-color: #fff;
-		width: 80%;
-		height: 100px;          
+		width: 75%;
+		height: 120px;          
         left: 20%;          
-               
-            
+        overflow-x: auto;
     }      
+    .trap{
+        width: auto;
+        text-align: center;
+    }
+    .topimageundername{
+        text-align: center;
+    }
+    .posttop::-webkit-scrollbar {
+        height: 5px; /*스크롤바의 너비*/
+        border-radius: 2%;
+    }
+
+    .posttop::-webkit-scrollbar-thumb {
+        background-color: rgb(88, 246, 120); /*스크롤바의 색상*/
+    }
+
+    .posttop::-webkit-scrollbar-track {
+        background-color: rgb(255, 255, 255); /*스크롤바 트랙 색상*/
+    }
     .posttop > div {
         flex: 1;
       }
@@ -425,6 +444,7 @@
         border-radius: 50%;
         background-image: linear-gradient(to top right, gold, rgb(250, 133, 79), purple);
         border: 2px solid transparent;
+        
     }
     .top-profile-image img {
       width: 100%;

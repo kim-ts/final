@@ -65,7 +65,7 @@
                 <i class="bi bi-house"></i>
                 <span>Home</span>
             </a>
-            <a href="#" class="icon-link">
+            <a href="#" class="icon-link" >
                 <i class="bi bi-search"></i>
                 <span>검색</span>
             </a>
@@ -78,6 +78,7 @@
                 <span>프로필</span>
             </a>
         </div>
+        <script src="jv.js"></script>
         <div class="morelist">
             <div class="btn-group dropup">
                 <button type="button" id="morebtn" class="btn btn-white dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -165,18 +166,28 @@
                 $posttopfriend = "select * from ".$id1."profile order by reg_date desc"; 
                 $posttopfriendquery = mysqli_fetch_array(mysqli_query($connect,$posttopfriend));
                 $profiletim = $posttopfriendquery['file'];
+
+                $imagename = "select * from member where id='$id1'";
+                $imagenamequery = mysqli_fetch_array(mysqli_query($connect,$imagename));
                 if($profiletim == ""){
                     $profiletim = "defaultprofile.jpg";
                 }
             ?>
+            <div class="trap">
                 <button type="button" class="btn btn-white" >
                     <a href="/profile.php?id=<?php echo $id1; ?>">
                         <div class="top-profile-image">
-                        
+
                             <img src="/upload/<?php echo $profiletim; ?>" alt="Button Image" style="max-width: 100%; max-height: 100%;">
+                            
                         </div>
                     </a>
+                
                 </button>
+                <div calss="topimageundername">
+                    <?php echo $imagenamequery['name']; ?>
+                </div>
+            </div>    
             <?php }?>
 		</div>
 		
@@ -217,6 +228,7 @@
                 $j_name = "j_".$post_id;
                 
                 $idpost = $result['id'];
+                $regdatepost = $result['reg_date'];
                 $callprofile = "select * from ".$idpost."profile order by reg_date desc"; 
                     /* 프로필 사진 가져오기 */
                      $callprofilequery = mysqli_fetch_array(mysqli_query($connect,$callprofile));
@@ -258,9 +270,9 @@
             </div>
             <div class="ppd" id="post_<?php echo $post_id; ?>">
                 <div class="heart">
-                <button type="button" class="btn btn-white" data-post-id="<?php echo $result['no']; ?>">
-                    <i class="bi bi-heart"></i>
-                </button>
+<!--좋아요-->       <button type="button" class="btn btn-white" data-post-id="<?php echo $result['no']; ?>">
+                        <i class="bi bi-heart"></i>
+                    </button>
                 </div>
                 <div class="chat">
                     <button type="button" class="btn btn-white" data-bs-toggle="modal" data-bs-target="#chatingmodal_<?php echo $post_id; ?>" data-post-id="<?php echo $result['no']; ?>">
@@ -285,6 +297,7 @@
                             $sum = "select * from board where no='$post_id'";
                             $sumresult = mysqli_fetch_array(mysqli_query($connect, $sum));
                             echo "좋아요 ".$sumresult['sum_like']."개";
+                            
                         ?>
                     </div>
                     <div class="commentnum" id="post_<?php echo $post_id; ?>">
@@ -335,6 +348,11 @@
                         <?php
                         echo $ccmresult['no']." ".$named." : ".$ccmresult['comm'];
                         echo "<br>";
+                        $query = "SELECT COUNT(*) as count FROM ".$idpost."_like_".$regdatepost." where id='$_SESSION[loginID]'";
+                        $mysql = mysqli_fetch_array(mysqli_query($connect, $query));
+                        $num = "num_".$mysql['count'];
+                        $numcount = $mysql['count'];
+                    
                         ?>
                     </div>
                     </div>
@@ -343,17 +361,42 @@
             </div>
         </div>
         <script>
-            var <?php echo $i_name; ?> = 0;
+             
+             var <?php echo $i_name; ?> = 0;
             var <?php echo $j_name; ?> = 0;
             $('.btn-white[data-post-id="<?php echo $post_id; ?>"]').on('click', function() {
                 var post_id = $(this).data('post-id');
                 console.log(post_id);
+                
                 if($(this).find('.bi-heart').length > 0) {
-                    <?php echo $i_name; ?> = 1;
-                    $(this).find('.bi-heart').removeClass('bi-heart').addClass('bi-heart-fill');
-                } else {
                     <?php echo $i_name; ?> = 0;
+                    $(this).find('.bi-heart').removeClass('bi-heart').addClass('bi-heart-fill');
+                    console.log('Sending AJAX request...');
+                    $.ajax({
+                        url: 'like.php',
+                        method: 'POST',
+                        data: {id: '<?php echo $result["id"]; ?>', reg_date: '<?php echo $result["reg_date"]; ?>'},
+                        success: function(response) {
+                            console.log(response);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
+                } else {
+                    <?php echo $i_name; ?> = 1;
                     $(this).find('.bi-heart-fill').removeClass('bi-heart-fill').addClass('bi-heart');
+                    $.ajax({
+                        url: 'unlike.php',
+                        method: 'POST',
+                        data: {id: '<?php echo $result["id"]; ?>', reg_date: '<?php echo $result["reg_date"]; ?>'},
+                        success: function(response) {
+                            console.log(response);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
                 }
                 if($(this).find('.bi-bookmark').length > 0) {
                     <?php echo $j_name; ?> = 1;
