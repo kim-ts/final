@@ -101,7 +101,7 @@
     }else{
         echo "<script>
                         alert('글 등록 실패');
-                        history.back();
+                        
                 </script>";
         echo mysqli_error($connect);
     }
